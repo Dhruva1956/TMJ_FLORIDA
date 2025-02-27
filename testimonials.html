@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials | TMJ & Sleep Therapy Centre</title>
+    <style>
+        /* Base styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background-color: #f9fafb;
+            scroll-behavior: smooth;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Utility classes */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #0f766e;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .navbar-button {
+            background-color: #0f766e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .navbar-button:hover {
+            background-color: #115e59;
+        }
+
+        /* Header section */
+        .header {
+            padding: 100px 20px 40px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #0f766e;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .header p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: #666;
+        }
+
+        /* Featured testimonials section */
+        .featured-section {
+            padding: 40px 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #0f766e;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* All testimonials section */
+        .testimonials-section {
+            padding: 40px 0 60px;
+            background-color: rgba(249, 250, 251, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* Video card styles */
+        .video-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(15, 118, 110, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-button svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .video-card:hover .play-button {
+            background-color: rgba(15, 118, 110, 1);
+        }
+
+        .video-info {
+            padding: 16px;
+        }
+
+        .video-info h3 {
+            margin: 0 0 8px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .video-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Video modal */
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .play-video-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .play-video-button:hover {
+            opacity: 1;
+        }
+
+        .play-video-button svg {
+            width: 64px;
+            height: 64px;
+        }
+
+        @media (max-width: 768px) {
+            .play-video-button svg {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            background: black;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .close-button {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Loading indicator */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Moving image styles */
+        .moving-image-container {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            pointer-events: auto; /* Change from 'none' to 'auto' to enable interaction */
+            cursor: grab; /* Add cursor style to indicate draggable */
+        }
+
+        .moving-image-container:active {
+            cursor: grabbing; /* Change cursor when actively dragging */
+        }
+
+        .moving-image {
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/img/hero-img.png');
+            background-size: cover;
+            background-position: center;
+            filter: drop-shadow(0 0 10px rgba(15, 118, 110, 0.7));
+            transition: filter 0.3s ease;
+        }
+
+        .light-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(15, 118, 110, 0.3) 0%, rgba(15, 118, 110, 0) 70%);
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        /* Particle animation canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .featured-grid, .testimonials-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 16px;
+            }
+
+            .play-button {
+                width: 50px;
+                height: 50px;
+            }
+
+            .play-button svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .moving-image-container {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .featured-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .navbar-logo {
+                font-size: 1rem;
+            }
+
+            .navbar-button {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo">
+            TMJ & Sleep Therapy Centre
+        </a>
+        <a href="https://book2.getweave.com/55a5452f-54cc-47e9-a3f2-86a4221fc9c2/request-appointment?source=WEBSITE" class="navbar-button">Schedule an Appointment</a>
+    </nav>
+
+    <header class="header">
+        <h1 id="page-title">Patient Testimonials</h1>
+        <p>Hear from our patients about their experiences and success stories with our treatments</p>
+    </header>
+
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title">Featured Stories</h2>
+            <div class="featured-grid" id="featured-grid">
+                <!-- Featured videos will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">All Patient Stories</h2>
+            <div class="testimonials-grid" id="testimonials-grid">
+                <!-- All testimonial videos will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <div class="video-modal" id="video-modal">
+        <div class="modal-content">
+            <button class="close-button" id="close-modal" aria-label="Close video">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="video-wrapper" id="video-wrapper">
+                <div class="loading" id="loading-indicator"></div>
+                <div id="video-placeholder" class="video-placeholder">
+                    <button id="play-video" class="play-video-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="white">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- YouTube iframe will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Moving image -->
+    <div class="moving-image-container" id="movingImageContainer">
+        <div class="light-effect"></div>
+        <div class="moving-image"></div>
+    </div>
+
+    <script>
+        // Array of YouTube video IDs
+        const videoIds = [
+            '11DjwFAvCbk',
+            '77fW7ycDisQ',
+            '_5bR8fKodLU',
+            'rRZKGjc03dw',
+            'fvN2I7BhxHo',
+            'p0tJpuKV3HU',
+            'cUUhK6btq6w',
+            'j-fbmlGzbHQ',
+            '05Rln_aJXIA'
+        ];
+
+        // DOM elements
+        const pageTitle = document.getElementById('page-title');
+        const featuredGrid = document.getElementById('featured-grid');
+        const testimonialsGrid = document.getElementById('testimonials-grid');
+        const videoModal = document.getElementById('video-modal');
+        const videoWrapper = document.getElementById('video-wrapper');
+        const closeModalButton = document.getElementById('close-modal');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // Global variables for moving image
+        let movingImage;
+        let imagePosition = { x: 0, y: 0 };
+        let targetPosition = { x: 0, y: 0 };
+        let scrollProgress = 0;
+        let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
+        let autoMove = true; // Flag to control automatic movement
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate the title
+            setTimeout(() => {
+                pageTitle.style.opacity = '1';
+                pageTitle.style.transform = 'translateY(0)';
+            }, 300);
+
+            // Create featured videos (first 3)
+            const featuredVideos = videoIds.slice(0, 3);
+            featuredVideos.forEach((videoId, index) => {
+                featuredGrid.appendChild(createVideoCard(videoId, index, true));
+            });
+
+            // Create all testimonial videos
+            videoIds.forEach((videoId, index) => {
+                testimonialsGrid.appendChild(createVideoCard(videoId, index, false));
+            });
+
+            // Set up event listeners
+            closeModalButton.addEventListener('click', closeVideoModal);
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) {
+                    closeVideoModal();
+                }
+            });
+
+            // Add keyboard support for accessibility
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && videoModal.style.display === 'flex') {
+                    closeVideoModal();
+                }
+            });
+
+            movingImage = document.getElementById('movingImageContainer');
+
+            // Initialize moving image position
+            imagePosition = { x: 0, y: 0 };
+            updateImagePosition();
+
+            // Add scroll event listener
+            window.addEventListener('scroll', handleScroll, { passive: true });
+
+            // Add drag functionality
+            movingImage.addEventListener('mousedown', startDrag);
+            movingImage.addEventListener('touchstart', startDrag, { passive: false });
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+
+            // Remove double-click handler - we always want auto movement
+            // movingImage.addEventListener('dblclick', toggleAutoMove);
+
+            // Start animation loop
+            animateImage();
+
+            // Initialize particle animation
+            initParticles();
+        });
+
+        // Start dragging the image
+        function startDrag(e) {
+            e.preventDefault();
+            isDragging = true;
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            dragOffset.x = clientX - imagePosition.x;
+            dragOffset.y = clientY - imagePosition.y;
+
+            movingImage.style.transition = 'none'; // Remove transition for smoother dragging
+        }
+
+        // Drag the image
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            // Update position based on mouse/touch position
+            imagePosition.x = clientX - dragOffset.x;
+            imagePosition.y = clientY - dragOffset.y;
+
+            // Keep image within viewport bounds
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const imageSize = window.innerWidth > 768 ? 150 : 100;
+
+            imagePosition.x = Math.max(0, Math.min(imagePosition.x, windowWidth - imageSize));
+            imagePosition.y = Math.max(0, Math.min(imagePosition.y, windowHeight - imageSize));
+
+            updateImagePosition();
+        }
+
+        // End dragging
+        function endDrag() {
+            isDragging = false;
+            movingImage.style.transition = 'transform 0.3s ease'; // Restore transition
+
+            // Update target position to be relative to the current position
+            // This allows the automatic movement to continue from the new position
+            targetPosition.x = imagePosition.x;
+            targetPosition.y = imagePosition.y;
+
+            // Re-enable automatic movement after a short delay
+            setTimeout(() => {
+                autoMove = true;
+            }, 100);
+        }
+
+        // Toggle automatic movement on double click
+        // function toggleAutoMove() {
+        //     autoMove = !autoMove;
+        //     if (autoMove) {
+        //         updateTargetPosition();
+        //     }
+        // }
+
+        // Animate image movement
+        function animateImage() {
+            if (!isDragging) {
+                // Always update target position based on scroll
+                updateTargetPosition();
+
+                const easing = 0.08;
+                imagePosition.x += (targetPosition.x - imagePosition.x) * easing;
+                imagePosition.y += (targetPosition.y - imagePosition.y) * easing;
+                updateImagePosition();
+            }
+            requestAnimationFrame(animateImage);
+        }
+
+        // Update target position based on scroll progress
+        function updateTargetPosition() {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const imageSize = window.innerWidth > 768 ? 150 : 100;
+            const navbarHeight = 60;
+
+            // Calculate the diagonal path
+            const diagonalLength = Math.sqrt(Math.pow(windowWidth, 2) + Math.pow(windowHeight, 2));
+            const progress = scrollProgress * diagonalLength;
+
+            // Calculate x and y positions along the diagonal
+            const baseX = (progress / diagonalLength) * (windowWidth - imageSize);
+            const baseY = (progress / diagonalLength) * (windowHeight - imageSize) + navbarHeight;
+
+            // Update target position
+            targetPosition.x = baseX;
+            targetPosition.y = baseY;
+
+            // Keep within bounds
+            targetPosition.x = Math.max(0, Math.min(targetPosition.x, windowWidth - imageSize));
+            targetPosition.y = Math.max(navbarHeight, Math.min(targetPosition.y, windowHeight - imageSize + navbarHeight));
+        }
+
+        // Update image position
+        function updateImagePosition() {
+            movingImage.style.transform = `translate(${imagePosition.x}px, ${imagePosition.y}px)`;
+        }
+
+        // Handle scroll event
+        function handleScroll() {
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            scrollProgress = scrollY / (documentHeight - windowHeight);
+
+            updateTargetPosition();
+        }
+
+        // Create a video card element
+        function createVideoCard(videoId, index, isFeatured) {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.setAttribute('data-video-id', videoId);
+
+            // Create thumbnail with optimized loading
+            const thumbnail = document.createElement('div');
+            thumbnail.className = 'video-thumbnail';
+
+            const img = document.createElement('img');
+            img.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`; // Medium quality thumbnail
+            img.alt = `Testimonial video thumbnail ${index + 1}`;
+
+            // Add loading attribute for better performance
+            if (isFeatured) {
+                img.loading = 'eager'; // Load immediately for featured videos
+            } else {
+                img.loading = 'lazy'; // Lazy load for other videos
+            }
+
+            // Add data attributes for high-quality image loading
+            img.setAttribute('data-video-id', videoId);
+            img.setAttribute('data-high-res', `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
+
+            // Create play button
+            const playButton = document.createElement('div');
+            playButton.className = 'play-button';
+            playButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+            `;
+
+            // Create info section
+            const info = document.createElement('div');
+            info.className = 'video-info';
+            info.innerHTML = `
+                <h3>Patient Testimonial ${index + 1}</h3>
+                <p>Hear about their experience with our treatment</p>
+            `;
+
+            // Assemble the card
+            thumbnail.appendChild(img);
+            thumbnail.appendChild(playButton);
+            card.appendChild(thumbnail);
+            card.appendChild(info);
+
+            // Add click event to open the video - ensure it stops propagation
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openVideoModal(videoId);
+            });
+
+            // Load high-resolution image after the page loads
+            if (isFeatured) {
+                setTimeout(() => {
+                    loadHighResImage(img);
+                }, 1000);
+            } else {
+                // Use Intersection Observer for non-featured videos
+                observeForHighRes(img);
+            }
+
+            return card;
+        }
+
+        // Load high-resolution image when in viewport
+        function observeForHighRes(imgElement) {
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            loadHighResImage(imgElement);
+                            observer.unobserve(imgElement);
+                        }
+                    });
+                }, { rootMargin: '100px' });
+
+                observer.observe(imgElement);
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                setTimeout(() => {
+                    loadHighResImage(imgElement);
+                }, 2000);
+            }
+        }
+
+        // Load high-resolution image
+        function loadHighResImage(imgElement) {
+            const highResUrl = imgElement.getAttribute('data-high-res');
+
+            // Create a new image to preload
+            const highResImage = new Image();
+            highResImage.onload = () => {
+                imgElement.src = highResUrl;
+            };
+            highResImage.src = highResUrl;
+        }
+
+        // Open video modal
+        function openVideoModal(videoId) {
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+
+            // Clear previous content
+            videoWrapper.innerHTML = '';
+            videoWrapper.appendChild(loadingIndicator);
+
+            // Create and add video placeholder
+            const placeholder = document.createElement('div');
+            placeholder.id = 'video-placeholder';
+            placeholder.className = 'video-placeholder';
+            placeholder.innerHTML = `
+            <button id="play-video" class="play-video-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="white">
+            <path d="M8 5v14l11-7z"/>
+            </svg>
+            </button>
+            `;
+            videoWrapper.appendChild(placeholder);
+
+            // Set up play button event listener
+            const playButton = document.getElementById('play-video');
+            playButton.addEventListener('click', () => loadYouTubeVideo(videoId));
+
+            // Show modal
+            videoModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+
+            // Hide loading indicator
+            loadingIndicator.style.display = 'none';
+        }
+
+        // Load YouTube video
+        function loadYouTubeVideo(videoId) {
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+
+            // Remove placeholder
+            const placeholder = document.getElementById('video-placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+
+            // Create iframe
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            iframe.title = 'YouTube video player';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+            iframe.allowFullscreen = true;
+            iframe.setAttribute('frameborder', '0');
+            iframe.style.position = 'absolute';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+
+            // Add load event to hide loading indicator
+            iframe.onload = () => {
+                loadingIndicator.style.display = 'none';
+            };
+
+            // Add iframe to wrapper
+            videoWrapper.appendChild(iframe);
+        }
+
+        // Close video modal
+        function closeVideoModal() {
+            videoModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+
+            // Remove iframe and placeholder to stop video
+            videoWrapper.innerHTML = '';
+        }
+
+        // Particle animation
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const particleCount = 100;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 3 + 1,
+                    color: `rgba(15, 118, 110, ${Math.random() * 0.5 + 0.1})`,
+                    speedX: Math.random() * 2 - 1,
+                    speedY: Math.random() * 2 - 1
+                });
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(particle => {
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+
+                    if (particle.x < 0 || particle.x > canvas.width) {
+                        particle.speedX = -particle.speedX;
+                    }
+
+                    if (particle.y < 0 || particle.y > canvas.height) {
+                        particle.speedY = -particle.speedY;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = particle.color;
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animateParticles);
+            }
+
+            animateParticles();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // Optimize image loading for visible thumbnails
+        window.addEventListener('load', () => {
+            // Check which thumbnails are in viewport and load high-res versions
+            document.querySelectorAll('.video-thumbnail img').forEach(img => {
+                if (isInViewport(img) && img.loading !== 'eager') {
+                    loadHighResImage(img);
+                }
+            });
+        });
+
+        // Check if element is in viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+    </script>
+</body>
+</html>
